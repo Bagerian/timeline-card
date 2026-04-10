@@ -172,10 +172,13 @@ class TimelineCardEditor extends LitElement {
 
   _onSettingsChanged(ev) {
     const patch = ev.detail?.patch || {};
-    this._config = {
-      ...this._config,
-      ...patch,
-    };
+    const newConfig = { ...this._config, ...patch };
+    for (const key of Object.keys(patch)) {
+      if (patch[key] === undefined) {
+        delete newConfig[key];
+      }
+    }
+    this._config = newConfig;
     this._emitConfigChanged();
   }
 

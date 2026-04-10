@@ -58,12 +58,12 @@ class TimelineCardGeneralSettings extends LitElement {
                 <ha-selector
                   style="min-width: 200px; width: 240px;"
                   .hass=${this.hass}
-                  .value=${cfg.language || ''}
+                  .value=${cfg.language || 'auto'}
                   .selector=${{
                     select: {
                       mode: 'dropdown',
                       options: [
-                        { value: '', label: 'Auto' },
+                        { value: 'auto', label: 'Auto' },
                         { value: 'de', label: 'Deutsch' },
                         { value: 'en-GB', label: 'English (UK)' },
                         { value: 'en-US', label: 'English (US)' },
@@ -75,8 +75,7 @@ class TimelineCardGeneralSettings extends LitElement {
                       ],
                     },
                   }}
-                  @value-changed=${(e) =>
-                    this._onSelectorChange('language', e, true)}
+                  @value-changed=${(e) => this._onLanguageChange(e)}
                 ></ha-selector>
               </div>
 
@@ -544,6 +543,11 @@ class TimelineCardGeneralSettings extends LitElement {
     }
 
     this._emitPatch(patch);
+  }
+
+  _onLanguageChange(ev) {
+    const val = ev?.detail?.value;
+    this._emitPatch({ language: val === 'auto' ? undefined : val });
   }
 
   _onSelectorChange(key, ev, keepEmpty = false, fallbackValue) {

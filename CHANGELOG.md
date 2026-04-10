@@ -5,6 +5,7 @@
 - Added Russian translations by **@kai-zer-ru**, Thank you!
 - Editor: migrated language, overflow, and card layout dropdowns to `ha-selector` for compatibility with the new Home Assistant UI by **@kai-zer-ru**
 - Editor: fixed entity picker compatibility with updated Home Assistant selector event format by **@kai-zer-ru**
+- Editor: fixed language selector not allowing "Auto" to be re-selected after a language was chosen
 
 ## v1.7.0
 
