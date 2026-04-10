@@ -97,6 +97,21 @@ const DOMAIN_MAP = {
     if (state === 'paused') return 'mdi:pause-circle';
     return 'mdi:stop-circle';
   },
+
+  input_text: () => 'mdi:form-textbox',
+
+  input_boolean: (state) =>
+    state === 'on' ? 'mdi:toggle-switch' : 'mdi:toggle-switch-off',
+
+  input_number: () => 'mdi:numeric',
+
+  input_select: () => 'mdi:format-list-bulleted',
+
+  automation: (state) =>
+    state === 'on' ? 'mdi:play-circle-outline' : 'mdi:stop-circle-outline',
+
+  script: (state) =>
+    state === 'on' ? 'mdi:script-text-play' : 'mdi:script-text',
 };
 
 // Generic fallback icons

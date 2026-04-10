@@ -15,7 +15,7 @@ import { relativeTime, formatAbsoluteTime } from './time-engine.js';
 
 import { fetchHistory } from './history-fetch.js';
 import { transformHistory } from './history-transform.js';
-import { filterHistory } from './history-filter.js';
+import { filterHistory, passesValueFilter } from './history-filter.js';
 
 import { getCachedHistory, setCachedHistory } from './history-cache.js';
 
@@ -313,6 +313,9 @@ class TimelineCard extends HTMLElement {
     }
     if (exclude && exclude.includes(newState.state)) {
       return; // ignore this live event (blocked by exclude list)
+    }
+    if (!passesValueFilter(newState.state, cfg)) {
+      return; // ignore this live event (outside min_value/max_value range)
     }
     // ---------------------------------------------
 

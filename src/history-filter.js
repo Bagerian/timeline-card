@@ -28,6 +28,17 @@ function collapseDuplicates(list, entities, globalConfig) {
   return collapsed;
 }
 
+export function passesValueFilter(raw_state, cfg) {
+  const hasMin = cfg?.min_value != null;
+  const hasMax = cfg?.max_value != null;
+  if (!hasMin && !hasMax) return true;
+  const num = parseFloat(raw_state);
+  if (isNaN(num)) return false;
+  if (hasMin && num < cfg.min_value) return false;
+  if (hasMax && num > cfg.max_value) return false;
+  return true;
+}
+
 export function filterHistory(items, entities, limit, globalConfig = {}) {
   let filtered = items.filter((ev) => {
     const cfg = entities.find((e) => e.entity === ev.id);
@@ -41,6 +52,12 @@ export function filterHistory(items, entities, limit, globalConfig = {}) {
     if (include) return include.includes(ev.raw_state);
     if (exclude) return !exclude.includes(ev.raw_state);
     return true;
+  });
+
+  // Value-based filter (min_value / max_value)
+  filtered = filtered.filter((ev) => {
+    const cfg = entities.find((e) => e.entity === ev.id);
+    return passesValueFilter(ev.raw_state, cfg);
   });
 
   // Sort (OLDEST first) to keep the earliest event when collapsing

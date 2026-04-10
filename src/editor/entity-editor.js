@@ -230,6 +230,40 @@ class TimelineCardEntityEditor extends LitElement {
                     )}
                 ></textarea>
               </div>
+
+              <!-- MIN VALUE -->
+              <div class="tc-setting-row">
+                <div class="tc-setting-label">
+                  <div class="tc-setting-title">Min value</div>
+                  <div class="tc-setting-description">
+                    Only show events where the numeric state is ≥ this value.
+                  </div>
+                </div>
+                <ha-textfield
+                  type="number"
+                  style="width: 140px;"
+                  .value=${cfg.min_value ?? ''}
+                  @input=${(e) =>
+                    this._updateNumberField('min_value', e.target.value)}
+                ></ha-textfield>
+              </div>
+
+              <!-- MAX VALUE -->
+              <div class="tc-setting-row">
+                <div class="tc-setting-label">
+                  <div class="tc-setting-title">Max value</div>
+                  <div class="tc-setting-description">
+                    Only show events where the numeric state is ≤ this value.
+                  </div>
+                </div>
+                <ha-textfield
+                  type="number"
+                  style="width: 140px;"
+                  .value=${cfg.max_value ?? ''}
+                  @input=${(e) =>
+                    this._updateNumberField('max_value', e.target.value)}
+                ></ha-textfield>
+              </div>
             </div>
           </div>
         </div>
@@ -326,6 +360,16 @@ class TimelineCardEntityEditor extends LitElement {
   /* ------------------------
      CONFIG PATCH
   -------------------------*/
+
+  _updateNumberField(key, rawValue) {
+    const text = `${rawValue ?? ''}`.trim();
+    if (!text) {
+      this._updateField(key, undefined);
+      return;
+    }
+    const num = parseFloat(text);
+    if (!isNaN(num)) this._updateField(key, num);
+  }
 
   _updateField(key, value) {
     if (value === undefined) {
